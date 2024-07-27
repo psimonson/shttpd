@@ -1,0 +1,23 @@
+<html>
+	<head><title>Hidden Page</title>
+	<script type="text/javascript">
+		function linksPage() {
+			var container = document.getElementById('container');
+
+			container.addElement('a', 'Hello world', '');
+		}
+	</script>
+	</head>
+
+	<body bgcolor="#000000" text="#00FF00" onLoad="javascript:alert('Welcome to a hidden page!');">
+		<p><h3>Hidden page found!</h3></p>
+
+		<p><form action="javascript:linksPage();" method="GET">
+			<input type="submit" id="submit" value="Click Me" />
+		</form></p>
+
+		<p><div id="container"></div></p>
+
+		<p><h6>No rights reserved! Copyright (C) 2024, Philip R. Simonson.</h6></p>
+	</body>
+</html>

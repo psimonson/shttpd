@@ -1,0 +1,28 @@
+<html>
+<head><title>Simple Web Page</title>
+<script type="text/javascript">
+function test() {
+	var text = document.getElementById('text');
+
+	if(text.value != "") {
+		document.getElementById('btn').value = text.value;
+	}
+}
+</script>
+</head>
+
+<body bgcolor="#000000" text="#00FF00" onLoad="javascript:alert('Hello world!');">
+
+<p><h3>Welcome to my small web page!</h3>
+</p>
+
+<p><form action="javascript:test();" method="GET">
+<input type="text" id="text" value="" />
+<input type="submit" id="btn" value="Click Me" />
+</form></p>
+
+<hr>
+<p><h5>No rights reserved. Written by Philip R. Simonson</h5></p>
+</body>
+</html>
+
