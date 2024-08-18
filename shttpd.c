@@ -13,6 +13,7 @@
 
 #include "abuffer.h"
 #include "network.h"
+#include "threadpool.h"
 #include "shttpd.h"
 
 /* ----------------------------- Response Stuff --------------------------- */
@@ -124,8 +125,9 @@ void send_response(SOCKET fd, response_t r)
 
 /* Process request from client.
  */
-void process_request(SOCKET fd)
+static void process_request(void *p)
 {
+	SOCKET fd = *(SOCKET*)p;
 	response_t r;
 	char buffer[4096];
 	int nbytes;
@@ -208,6 +210,7 @@ int main(int argc, char *argv[])
 {
 	unsigned short port = 8080;
 	SOCKET server, client;
+	threadpool_t *tpool;
 
 	if(argc > 2) {
 		fprintf(stderr, "Usage: %s [port]\n", argv[0]);
@@ -218,14 +221,17 @@ int main(int argc, char *argv[])
 	if(server == INVALID_SOCKET)
 		return 1;
 
+	tpool = threadpool_create(5);
 	while(1) {
 		client = server_socket_accept(server);
 		if(client == INVALID_SOCKET)
 			break;
 
-		process_request(client);
+		threadpool_add_task(tpool, process_request, &client);
 	}
 
+	threadpool_wait(tpool);
+	threadpool_destroy(tpool);
 	close(server);
 	return 0;
 }

@@ -1,6 +1,6 @@
 CC=gcc
 CFLAGS=-std=c11 -Wall -Wextra -Wno-unused-function
-LDFLAGS=#-lpthread
+LDFLAGS=-lpthread
 
 PROJECT=$(shell basename $(shell pwd))
 VERSION=1.0
@@ -24,7 +24,7 @@ distclean:
 	@echo "Cleaning distribution..."
 	@($(MAKE) clean && rm -f *.bak) && echo "done!" || echo "failed!"
 
-shttpd: shttpd.c.o abuffer.c.o
+shttpd: shttpd.c.o abuffer.c.o threadpool.c.o
 	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
 %.c.o: %.c
